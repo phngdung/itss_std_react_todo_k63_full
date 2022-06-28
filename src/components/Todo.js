@@ -5,7 +5,6 @@ import { useFirebaseStorage } from "../hooks/";
 import TodoItem from "./TodoItem";
 import Input from "./Input";
 import Filter from "./Filter";
-// import { deleteFirebaseItems } from "../services";
 
 function Todo() {
   const [items, addTodo, updateTodo, deleteTodo] = useFirebaseStorage();
