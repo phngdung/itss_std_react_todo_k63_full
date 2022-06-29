@@ -9,7 +9,6 @@ import Filter from "./Filter";
 function Todo() {
   const [items, addTodo, updateTodo, deleteTodo] = useFirebaseStorage();
   const [filter, setFilter] = React.useState("ALL");
-  console.log(items);
   const displayItems = items.filter((item) => {
     if (filter === "ALL") return true;
     if (filter === "TODO") return !item.done;

@@ -6,7 +6,9 @@ import "./styles/main.css";
 /* コンポーネント */
 import Todo from "./components/Todo";
 import Login from "./components/Login";
-import { auth, storeUserInfo } from "./services/firebase";
+import { auth, storeUserInfo, updateUser } from "./services/firebase";
+import Upload from "./components/Upload";
+
 function App() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState([]);
@@ -25,12 +27,21 @@ function App() {
   const logout = () => {
     auth.signOut();
   };
+  const handleImageChanged = async (downloadUrl) => {
+    await updateUser(user, downloadUrl);
+  };
 
   const HeaderContent = () => {
     if (user) {
       return (
         <div class="navbar-end">
-          <div class="navbar-item">{user.name}</div>
+          <div class="navbar-item">
+            <Upload
+              userImage={user.image}
+              onSelectedImage={handleImageChanged}
+            />
+            {user.name}
+          </div>
           <div class="navbar-item">
             <button class="button is-danger is-light is-small" onClick={logout}>
               {" "}

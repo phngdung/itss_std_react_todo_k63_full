@@ -1,6 +1,16 @@
 import { firebaseApp } from "../lib/firebase";
 import firebase from "firebase/compat/app";
+import "firebase/storage";
+import "firebase/compat/auth";
+import "firebase/compat/firestore";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
 
+const storage = getStorage();
 const db = firebaseApp.firestore();
 export const getFirebaseItems = async () => {
   try {
@@ -78,4 +88,16 @@ export const updateUser = async (user, image) => {
   } catch (err) {
     console.log(err);
   }
+};
+
+export const uploadImage = async (image) => {
+  let downloadUrl = "";
+  try {
+    const imagesRef = ref(storage, `${image.name}`);
+    await uploadBytesResumable(imagesRef, image);
+    downloadUrl = await getDownloadURL(imagesRef);
+  } catch (err) {
+    console.log(err);
+  }
+  return downloadUrl;
 };
